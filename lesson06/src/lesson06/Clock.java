@@ -9,120 +9,99 @@ public class Clock {
     private static final int PORT = 4223;
     
     // TODO: Hier die mit dem Brickviewer ermittelte UID eintragen
-    private static final String UID = "ocV";
+    private static final String UID = "XYZ";
 
+    private static IPConnection ipcon = new IPConnection(); 
+    private static BrickletLCD20x4 lcd = new BrickletLCD20x4(UID, ipcon); 
+    
     public static void main(String args[]) throws Exception {
-        IPConnection ipcon = new IPConnection(); 
-        BrickletLCD20x4 lcd = new BrickletLCD20x4(UID, ipcon); 
         ipcon.connect(HOST, PORT);
         lcd.backlightOn();
         lcd.clearDisplay();
         
-        
-        
-        
-        // FIXME: UID raus!
-         
-        
-        
-
         // Uhrzeit
         int stunde = 9;
         int minute = 16;
         int sekunde = 32;
         String ausgabe = "";
         
-        // Erster Versuch
-        ausgabe = stunde + ":" + minute + ":" + sekunde;
-        
-        // REFACTOR: Erster Versuch
-        ausgabe = "" + stunde;
-        ausgabe = ausgabe + ":";
-        ausgabe = ausgabe + minute;
-        ausgabe = ausgabe + ":";
-        ausgabe = ausgabe + sekunde;
-        System.out.println("1: " + ausgabe);
-        
-        // REFACTOR: Zweiter Versuch
-        ausgabe = "";
-        if (stunde < 10) {
-        	ausgabe = ausgabe + "0";
-        }
-        ausgabe = ausgabe + stunde;
-        ausgabe = ausgabe + ":";
-        ausgabe = ausgabe + minute;
-        ausgabe = ausgabe + ":";
-        ausgabe = ausgabe + sekunde;
-        System.out.println("2: " + ausgabe);
-        
-        // Änderung der Datengrundlage
-        sekunde = 8;
-        
-        // REFACTOR: Dritter Versuch
-        ausgabe = "";
-        if (stunde < 10) {
-        	ausgabe = ausgabe + "0";
-        }
-        ausgabe = ausgabe + stunde;
-        ausgabe = ausgabe + ":";
-        ausgabe = ausgabe + minute;
-        ausgabe = ausgabe + ":";
-        if (sekunde < 10) {
-        	ausgabe = ausgabe + "0";
-        }
-        ausgabe = ausgabe + sekunde;
-        System.out.println("3: " + ausgabe);
-        
-        // Änderung der Datengrundlage...
-        minute = 3;
-        
-        // REFACTOR: Vierter Versuch
-        ausgabe = "";
-        if (stunde < 10) {
-        	ausgabe = ausgabe + "0";
-        }
-        ausgabe = ausgabe + stunde;
-        ausgabe = ausgabe + ":";
-        if (minute < 10) {
-        	ausgabe = ausgabe + "0";
-        }
-        ausgabe = ausgabe + minute;
-        ausgabe = ausgabe + ":";
-        if (sekunde < 10) {
-        	ausgabe = ausgabe + "0";
-        }
-        ausgabe = ausgabe + sekunde;
-        System.out.println("4: " + ausgabe);
-        
-        // REFACTOR: Fünfter Versuch
-        ausgabe = padLeft(stunde) + ":";
-        ausgabe = ausgabe + padLeft(minute) + ":";
-        ausgabe = ausgabe + padLeft(sekunde);
-        System.out.println("5: " + ausgabe);
-        
-        // REFACTOR: Sechster Versuch
-        ausgabe = formatTime(stunde, minute, sekunde);
-        System.out.println("6: " + ausgabe);
         
         
-        // FIXME: Aufgabe: Anpassung von formatTime, so dass Uhrzeit im 12h Format ausgegeben wird
         
         
+        
+        lcd.writeLine((short)0, (short)0, "Uhrzeit: " + ausgabe);
+        
+        /*
+         * AUFGABE 1
+         */
+        int laenge = 10;
+        int breite = 2;
+        int hoehe = 2;
+        
+        int rauminhalt = inhalt(laenge, breite, hoehe);
+        lcd.writeLine((short)1, (short)0, "Rauminhalt: " + rauminhalt);
+        
+        /*
+         * AUFGABE 2
+         */
+        double schulaufgabe1 = 2; 
+        double schulaufgabe2 = 1;
+        double ex1 = 4;
+        double ex2 = 1;
+        double muendlich = 1;
+        
+        double schnitt = halbjahresSchnitt(schulaufgabe1, schulaufgabe2, ex1, ex2, muendlich);
+        lcd.writeLine((short)2, (short)0, "Schnitt: " + schnitt);
+        
+        /*
+         * AUFGABE 3
+         */
+        int note = schnittZuNote(schnitt);
+        lcd.writeLine((short)3, (short)0, "Note: " + note);
     }
     
-    public static String padLeft(int zahl) {
-    	String result = "";
+    /*
+     * FUNKTION FUER AUFGABE 1
+     */
+    public static int inhalt(int laenge, int breite, int hoehe) {
+    	int rauminhalt = 0;
     	
-    	if (zahl < 10) {
-    		result = result + "0";
-    	}
+    	// TODO: Berechnung des Rauminhalts
     	
-    	result = result + zahl;
-    	
-    	return result;
+    	return rauminhalt;
     }
     
-    public static String formatTime(int hour, int minute, int second) {
-    	return padLeft(hour) + ":" + padLeft(minute) + ":" + padLeft(second);
+    /*
+     * FUNKTION FUER AUFGABE 2
+     */
+    public static double halbjahresSchnitt(double sa1, double sa2, double ex1, double ex2, double m1) {
+    	double schnitt = 0;
+    	
+    	// TODO: Berechnung des Notenschnitts
+    	
+    	return schnitt;
+    }
+
+    /*
+     * FUNKTION FUER AUFGABE 3
+     */
+    public static int schnittZuNote(double schnitt) {
+    	int note = 0;
+    	
+    	// TODO: Feststellen der Zeugnisnote
+    	
+    	return note;
+    }    
+    
+    /*
+     * FUNKTION FUER AUFGABE 4
+     */
+    public static String formatTime(int hour, int minute, int second, boolean is24h) {
+    	String uhrzeit = "";
+    	
+    	// TODO: Formatieren der Uhrzeit
+    	
+    	return uhrzeit;
     }
 }
