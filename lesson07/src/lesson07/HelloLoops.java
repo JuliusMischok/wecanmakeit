@@ -1,5 +1,8 @@
 package lesson07;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.tinkerforge.BrickletLCD20x4;
 import com.tinkerforge.IPConnection;
 
@@ -17,7 +20,7 @@ public class HelloLoops {
         ipcon.connect(HOST, PORT);
         lcd.backlightOn();
         lcd.clearDisplay();
-
+         
         /*
          * Aufgabe 1
          */
