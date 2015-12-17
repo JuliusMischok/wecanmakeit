@@ -1,7 +1,10 @@
 package de.wja.weatherstation;
 
-import com.tinkerforge.BrickletAmbientLight;
-import com.tinkerforge.BrickletAmbientLight.IlluminanceListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import com.tinkerforge.BrickletAmbientLightV2;
+import com.tinkerforge.BrickletAmbientLightV2.IlluminanceListener;
 import com.tinkerforge.BrickletBarometer;
 import com.tinkerforge.BrickletBarometer.AirPressureListener;
 import com.tinkerforge.BrickletHumidity;
@@ -29,7 +32,7 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
 
     private final IPConnection ipcon; 
     private final BrickletLCD20x4 lcd;
-    private final BrickletAmbientLight ambient; // FIXME: V1 oder V2???
+    private final BrickletAmbientLightV2 ambient; 
     private final BrickletBarometer barometer;
     private final BrickletHumidity humidity;
     
@@ -42,7 +45,7 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
     private Weatherstation() throws Exception {
     	this.ipcon = new IPConnection();
     	this.lcd = new BrickletLCD20x4(UID_LCD, ipcon);
-    	this.ambient = new BrickletAmbientLight(UID_AMBIENTLIGHT, ipcon);
+    	this.ambient = new BrickletAmbientLightV2(UID_AMBIENTLIGHT, ipcon);
     	this.barometer = new BrickletBarometer(UID_BAROMETER, ipcon);
     	this.humidity = new BrickletHumidity(UID_HUMIDITY, ipcon);
     	
@@ -89,7 +92,23 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
     private void disconnect() throws Exception {
     	this.ipcon.disconnect();
     }
-    
+
+    /**
+     * *** BITTE NICHT ANFASSEN ***
+     * @param part Teil des Datums, das ausgegeben werden soll. Mögliche Werte:
+     * 			"yyyy" 	liefert das Jahr
+     * 			"MM"	liefert den Monat
+     * 			"dd"	liefert den Tag im Monat
+     * 			"HH"	liefert die Stunden
+     * 			"mm"	liefert die Minuten
+     * 			"ss"	liefert die Sekunden
+     * 			"F"		liefert den Index des Wochentages
+     * @return Datums- oder Uhrzeitteil
+     */
+    public int getDatePart(String part) {
+    	return Integer.valueOf(new SimpleDateFormat(part).format(Calendar.getInstance().getTime()));
+    }
+        
     /**
      * Diese Methode wird beim Starten der Wetterstation aufgerufen. Wenn du
      * eine Aktion vor allen anderen Schritten ausführen möchtest, kannst du 
@@ -158,7 +177,7 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
 	 * @param illuminance Helligkeit, der Wert muss durch 100.0 geteilt werden um die Helligkeit in Lux zu erhalten
 	 */
 	@Override
-	public void illuminance(int illuminance) {
+	public void illuminance(long illuminance) {
 		// Wenn du den Wert von illuminance durch 100.0 teilst, erhältst du die
 		// Helligkeit in Lux und kannst mit ihr weiterarbeiten.
 
