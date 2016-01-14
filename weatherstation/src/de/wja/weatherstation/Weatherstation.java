@@ -127,6 +127,14 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
         // Weitere Schritt für die Initialisierung...
         
     }
+    
+    public void writeLine(int line, String text) throws Exception {
+    	// Zeile mit Leerzeichen füllen
+    	lcd.writeLine((short)line, (short)0, "                    ");
+    		
+    	// Text ausgeben
+    	lcd.writeLine((short)line, (short)0, text);
+    }
 
     /**
      * Wird aufgerufen, wenn ein Button am LCD-Display gedrückt wurde
@@ -134,9 +142,25 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
      */
 	@Override
 	public void buttonPressed(short button) {
-		// Hier kannst du eine Aktion programmieren, die beim Drücken eines
-		// Buttons ausgeführt werden soll.
-
+		try {
+			
+			// Je nach Button unterscheiden
+			if (button == 1) {
+				// Erklaerung ausgeben
+				writeLine(0, "Zeile 2: Luftfeucht.");
+			}
+			if (button == 2) {
+				// Erklaerung ausgeben
+				writeLine(0, "Zeile 3: Helligkeit");
+			}
+			if (button == 3) {
+				// Erklaerung ausgeben
+				writeLine(0, "Zeile 4: Luftdruck");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -156,20 +180,36 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
 	 */
 	@Override
 	public void humidity(int humidity) {
-		// Wenn du den Wert von humidity durch 10.0 teilst, erhältst du die 
-		// relative Luftfeuchtigkeit in % und kannst mit ihr weiterarbeiten.	
-
+		try {
+			
+			// Erst mal in die korrekte Kommazahl umrechnen
+			double humDbl = ((double)humidity) / 10.0;
+			
+			// Auf dem Display ausgeben
+			writeLine(1, "RL: " + humDbl + "%");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * Wird aufgerufen, wenn sich der Luftdruck ändert
-	 * @param airPressure Luftdruck, der Wert muss durch 10.0 geteilt werden um den Luftdruck in Hektopascal zu erhalten
+	 * @param airPressure Luftdruck, der Wert muss durch 1000.0 geteilt werden um den Luftdruck in Hektopascal zu erhalten
 	 */
 	@Override
 	public void airPressure(int airPressure) {
-		// Wenn du den Wert von airPressure durch 10.0 teilst, erhältst du 
-		// den Luftdruck in Hektopascal und kannst mit ihm weiterarbeiten.
-
+		try {
+			
+			// Erst mal in die korrekte Kommazahl umrechnen
+			double prsDbl = ((double)airPressure) / 1000.0;
+			
+			// Auf dem Display ausgeben
+			writeLine(3, "Dru: " + prsDbl + " hPa");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -178,8 +218,16 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
 	 */
 	@Override
 	public void illuminance(long illuminance) {
-		// Wenn du den Wert von illuminance durch 100.0 teilst, erhältst du die
-		// Helligkeit in Lux und kannst mit ihr weiterarbeiten.
-
+		try {
+			
+			// Erst mal in die korrekte Kommazahl umrechnen
+			double illDbl = ((double)illuminance) / 100.0;
+			
+			// Auf dem Display ausgeben
+			writeLine(2, "Hel: " + illDbl + " lx");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
