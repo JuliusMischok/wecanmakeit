@@ -145,17 +145,20 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
 		try {
 			
 			// Je nach Button unterscheiden
+			if (button == 0) {
+				// Temperatur holen und umrechnen
+				double temp = (double)barometer.getChipTemperature() / 100.0;
+				
+				// Temperatur ausgeben
+				writeLine(0, "Temp.: " + temp + " Grad C");
+			}
 			if (button == 1) {
-				// Erklaerung ausgeben
-				writeLine(0, "Zeile 2: Luftfeucht.");
+				// Datum ausgeben
+				writeLine(0, getDatePart("dd") + "." + getDatePart("MM") + "." + getDatePart("yyyy"));
 			}
 			if (button == 2) {
-				// Erklaerung ausgeben
-				writeLine(0, "Zeile 3: Helligkeit");
-			}
-			if (button == 3) {
-				// Erklaerung ausgeben
-				writeLine(0, "Zeile 4: Luftdruck");
+				// Uhrzeit ausgeben
+				writeLine(0, getDatePart("HH") + "." + getDatePart("mm") + "." + getDatePart("ss"));
 			}
 			
 		} catch (Exception e) {
