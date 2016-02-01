@@ -66,7 +66,7 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
      */
     public static void main(String[] args) throws Exception {
     	Weatherstation weatherstation = new Weatherstation();
- 	
+    	
     	// Initialisieren
     	weatherstation.init();
    
@@ -126,8 +126,26 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
     
         // Weitere Schritt für die Initialisierung...
         
+        // Gradsymbol anlegen
+        short character[] = new short[8];
+        character[0] = 0b00000110;
+        character[1] = 0b00001001;
+        character[2] = 0b00001001;
+        character[3] = 0b00000110;
+        character[4] = 0b00000000;
+        character[5] = 0b00000000;
+        character[6] = 0b00000000;
+        character[7] = 0b00000000;
+
+        lcd.setCustomCharacter((short)0, character);
     }
     
+    /**
+     * Hilfsfunktion zum Schreiben auf das Display
+     * @param line Zeilenindex (nullbasier)
+     * @param text Text, der geschrieben werden soll
+     * @throws Exception Exceptions, die beim Schreiben fliegen, werden einfach weitergegeben
+     */
     public void writeLine(int line, String text) throws Exception {
     	// Zeile mit Leerzeichen füllen
     	lcd.writeLine((short)line, (short)0, "                    ");
@@ -150,7 +168,7 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
 				double temp = (double)barometer.getChipTemperature() / 100.0;
 				
 				// Temperatur ausgeben
-				writeLine(0, "Temp.: " + temp + " Grad C");
+				writeLine(0, "Temp.: " + temp + " " + (char)0x08 + " C");
 			}
 			if (button == 1) {
 				// Datum ausgeben
@@ -160,10 +178,52 @@ public class Weatherstation implements ButtonPressedListener, ButtonReleasedList
 				// Uhrzeit ausgeben
 				writeLine(0, getDatePart("HH") + "." + getDatePart("mm") + "." + getDatePart("ss"));
 			}
+			if (button == 3) {
+				// Wochentag ausgeben
+				writeLine(0, wochentag() + " " + (char)0x08);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Liefert das dreistellige Kuerzel des aktuellen Wochentages
+	 * @return Mon für Montag, usw...
+	 */
+	public String wochentag() {
+		String wochentag = "";
+		
+		// Tagindex von der Datumsfunktion holen
+		int tag = getDatePart("F");
+		
+		// Tageskürzel erzeugen
+		// ACHTUNG: Tagindex ist nullbasiert, also 
+		// 0 für Sonntag, 1 für Montag, etc...
+		if (tag == 0) {
+			wochentag = "Son";
+		}
+		if (tag == 1) {
+			wochentag = "Mon";
+		}
+		if (tag == 2) {
+			wochentag = "Die";
+		}
+		if (tag == 3) {
+			wochentag = "Mit";
+		}
+		if (tag == 4) {
+			wochentag = "Don";
+		}
+		if (tag == 5) {
+			wochentag = "Fre";
+		}
+		if (tag == 6) {
+			wochentag = "Sam";
+		}
+		
+		return wochentag;
 	}
 
 	/**

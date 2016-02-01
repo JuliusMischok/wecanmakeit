@@ -14,13 +14,13 @@ public class HelloOperators {
     private static final String UID = "XYZ";
 
     public static void main(String args[]) throws Exception {
-//        IPConnection ipcon = new IPConnection(); 
-//        BrickletLCD20x4 lcd = new BrickletLCD20x4(UID, ipcon); 
-//        ipcon.connect(HOST, PORT);
-//        lcd.backlightOn();
-//        lcd.clearDisplay();
-//        
-//        
+        IPConnection ipcon = new IPConnection(); 
+        BrickletLCD20x4 lcd = new BrickletLCD20x4(UID, ipcon); 
+        ipcon.connect(HOST, PORT);
+        lcd.backlightOn();
+        lcd.clearDisplay();
+        
+        
         int geburtsjahr = 1986;
         
     	int mod4 = geburtsjahr % 4;

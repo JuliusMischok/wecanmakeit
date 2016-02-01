@@ -3,6 +3,12 @@ package de.wecanmakeit.lesson01;
 import com.tinkerforge.BrickletLCD20x4;
 import com.tinkerforge.IPConnection;
 
+/**
+ * Projektvorlage für die erste Einheit
+ * 
+ * @author Julius Mischok
+ *
+ */
 public class HelloWorld {
     private static final String HOST = "localhost";
     private static final int PORT = 4223;

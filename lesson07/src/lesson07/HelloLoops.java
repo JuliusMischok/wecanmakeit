@@ -1,8 +1,5 @@
 package lesson07;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.tinkerforge.BrickletLCD20x4;
 import com.tinkerforge.IPConnection;
 
